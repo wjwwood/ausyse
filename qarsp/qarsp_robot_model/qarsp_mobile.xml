@@ -1,0 +1,32 @@
+<robot name="sparcexplorer">
+    <material name="Blue">
+            <color rgba="0.0 0.0 0.8 1.0"/>
+    </material>
+    <material name="Red">
+            <color rgba="0.8 0.0 0.0 1.0"/>
+    </material>
+  <link name="base_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0 0 0.05"/>
+        <geometry>
+            <cylinder radius="0.205" length="0.1" />
+        </geometry>
+        <material name="Blue"/>
+    </visual>
+  </link>
+  <link name="openni_camera">
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 0.025"/>
+          <geometry>
+              <cylinder radius="0.0125" length="0.05" />
+          </geometry>
+          <material name="Red"/>
+      </visual>
+  </link>
+  
+  <joint name="laser_joint" type="continuous">
+    <parent link="base_link" />
+    <child link="openni_camera" />
+    <origin xyz="0.16 0 0.17" rpy="0 0 0" />
+  </joint>
+</robot>

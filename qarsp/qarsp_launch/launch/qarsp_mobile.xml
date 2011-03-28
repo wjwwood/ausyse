@@ -1,0 +1,7 @@
+<launch>
+    <!-- Start the Robot Model and State Publisher -->
+    <include file="$(find qarsp_launch)/launch/transforms.xml" />
+    
+    <!-- Start the iRobot Create Driver -->
+    <node name="irobot_create_driver" pkg="irobot_create_2_1" type="driver.py" output="screen" />
+</launch>

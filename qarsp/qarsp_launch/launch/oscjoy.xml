@@ -1,0 +1,7 @@
+<launch>
+    <!-- Start the OSC to Joy Node -->
+    <node name="osc_joy" pkg="osc_joy" type="osc_joy.py" output="screen" />
+    
+    <!-- Start the Joy to Twist Node -->
+    <node name="joy2twist" pkg="joy2twist" type="joy2twist.py" output="screen" />
+</launch>

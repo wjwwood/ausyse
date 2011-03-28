@@ -1,0 +1,6 @@
+<launch>
+  <include file="$(find qarsp_launch)/launch/qarsp_mobile.xml" />
+  <include file="$(find qarsp_launch)/launch/openni_laser.xml" />
+  <include file="$(find qarsp_launch)/launch/oscjoy.xml" />
+  <include file="$(find qarsp_launch)/launch/gslam.xml" />
+</launch>

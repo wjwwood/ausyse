@@ -1,0 +1,4 @@
+<launch>
+  <!-- Start the Navigation Subsystem -->
+  <include file="$(find qarsp_2dnav)/launch/move_base.xml" />
+</launch>

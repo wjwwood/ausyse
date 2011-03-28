@@ -1,0 +1,13 @@
+<launch>
+    <!-- Parse and set the robot description from the URDF -->
+    <param name="robot_description" command="cat $(find qarsp_robot_model)/qarsp_mobile.xml" />
+    
+    <!-- Static Laser Transform -->
+    <node pkg="tf" type="static_transform_publisher" name="kinect_broadcaster" args="0.09 0 0.146 0 0 0 base_link openni_camera 100" />
+    
+    <!-- Start the state publisher -->
+    <!-- <node pkg="robot_state_publisher" type="state_publisher" name="state_publisher" /> -->
+    
+    <!-- Start the Joint State Publisher -->
+    <!-- <node pkg="sparcexplorer_robot_model" type="state_publisher" name="joint_state_publisher" /> -->
+</launch>
