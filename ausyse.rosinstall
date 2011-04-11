@@ -1,0 +1,3 @@
+- git:
+    uri: git@github.com:wjwwood/ausyse.git
+    local: ausyse
