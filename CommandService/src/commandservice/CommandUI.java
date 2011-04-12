@@ -448,7 +448,7 @@ public class CommandUI extends javax.swing.JFrame {
 
                     while(rs.next())
                     {
-                            rResult +=rs.getInt("ID") + "\t" + rs.getInt("type") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("long") + "\t" + rs.getFloat("heading") + "\t" + rs.getInt("status_code") + "\n";
+                            rResult +=rs.getInt("ID") + "\t" + rs.getInt("type") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("lng") + "\t" + rs.getFloat("heading") + "\t" + rs.getInt("status_code") + "\n";
                     }
 
                     //System.out.println(rResult);
@@ -472,7 +472,7 @@ public class CommandUI extends javax.swing.JFrame {
 
             //Selects all Orders
             String qSQL = "SELECT * FROM orders_db";
-            String qResult = "ODERS_DB\nID\tlat\tlong\tStatus\tPriority\tOwner_ID\n";
+            String qResult = "ODERS_DB\nID\tlat\tlng\tStatus\tPriority\tOwner_ID\n";
 
             try
             {
@@ -480,7 +480,7 @@ public class CommandUI extends javax.swing.JFrame {
 
                     while(rs.next())
                     {
-                            qResult += rs.getInt("ID") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("long") + "\t" + rs.getInt("status") + "\t" + rs.getInt("priority") + "\t" + rs.getInt("owner_ID") + "\n";
+                            qResult += rs.getInt("ID") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("lng") + "\t" + rs.getInt("status") + "\t" + rs.getInt("priority") + "\t" + rs.getInt("owner_ID") + "\n";
                     }
 
                     //System.out.print(qResult);

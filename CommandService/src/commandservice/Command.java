@@ -67,7 +67,7 @@ public class Command {
 	
 		//Selects all unanswered orders (status = -1) ---------------------------------------------
 		String oSQL = "SELECT * FROM orders_db WHERE status = -1";
-		String oResult = "ID\tlat\t\tlong\t\tstat\tprior\towner_ID\n";
+		String oResult = "ID\tlat\t\tlng\t\tstat\tprior\towner_ID\n";
 		
 		Vector<Integer> t_IDo = new Vector<Integer>();		Vector<Float> t_lat = new Vector<Float>();
 		Vector<Float> t_lng = new Vector<Float>();			Vector<Integer> t_stt = new Vector<Integer>();	
@@ -80,7 +80,7 @@ public class Command {
 			while(rso.next())
 			{
 				t_IDo.add(rso.getInt("ID"));						t_lat.add(rso.getFloat("lat"));			
-				t_lng.add(rso.getFloat("long"));					t_stt.add(rso.getInt("status"));
+				t_lng.add(rso.getFloat("lng"));					t_stt.add(rso.getInt("status"));
 				t_pri.add(rso.getInt("priority"));					t_own.add(rso.getInt("owner_ID"));
 				
 				oResult += t_IDo.get(j)+"\t"+t_lat.get(j)+"\t"+t_lng.get(j)+"\t"+t_stt.get(j)+"\t"+t_pri.get(j)+"\t"+t_own.get(j)+"\n";
@@ -98,7 +98,7 @@ public class Command {
 		
 		//Selects all QARSPs ----------------------------------------------------------------------
 		String qSQL = "SELECT * FROM device_loc WHERE status_code = -1";
-		String qResult = "ID\ttype\tlat\t\tlong\t\theading\t\tstatus_code\n";
+		String qResult = "ID\ttype\tlat\t\tlng\t\theading\t\tstatus_code\n";
 		
 		Vector<Integer> t_IDq = new Vector<Integer>();		Vector<Integer> t_typ = new Vector<Integer>();
 		Vector<Float> t_ltq = new Vector<Float>();			Vector<Float> t_lgq = new Vector<Float>();
@@ -111,7 +111,7 @@ public class Command {
 			while(rsq.next())
 			{
 				t_IDq.add(rsq.getInt("ID"));				t_typ.add(rsq.getInt("type"));
-				t_ltq.add(rsq.getFloat("lat"));				t_lgq.add(rsq.getFloat("long"));
+				t_ltq.add(rsq.getFloat("lat"));				t_lgq.add(rsq.getFloat("lng"));
 				t_hed.add(rsq.getFloat("heading"));			t_stc.add(rsq.getInt("status_code"));
 				
 				qResult += t_IDq.get(j) + "\t" + t_typ.get(j) +"\t"+ t_ltq.get(j) +"\t"+ t_lgq.get(j) +"\t"+ t_hed.get(j) + "\t\t" + t_stc.get(j) + "\n";

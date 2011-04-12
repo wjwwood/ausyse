@@ -44,8 +44,8 @@ public class TableMods {
 		st.execute("DROP TABLE orders_db");
 		st.execute("DROP TABLE device_loc");
 		
-		st.execute("CREATE TABLE `device_loc` ( `ID` INT(11)  NOT NULL AUTO_INCREMENT, `type` INT(11)  NOT NULL, `lat` FLOAT(10,7)  NOT NULL, `long` FLOAT(10,7)  NOT NULL, `heading` FLOAT  NOT NULL, `status_code` INT(11)  NOT NULL, PRIMARY KEY (`ID`) )");
-		st.execute("CREATE TABLE `orders_db` ( `ID` INT(11)  NOT NULL AUTO_INCREMENT COMMENT 'unique id', `lat` FLOAT(10,7) DEFAULT '0.000' NOT NULL COMMENT 'coordinate', `long` FLOAT(10,7) DEFAULT '0.000' NOT NULL COMMENT 'coordinate', `status` INT(11), `priority` INT(11), `owner_ID` INT(11), PRIMARY KEY (`ID`))");
+		st.execute("CREATE TABLE `device_loc` ( `ID` INT(11)  NOT NULL AUTO_INCREMENT, `type` INT(11)  NOT NULL, `lat` FLOAT(10,7)  NOT NULL, `lng` FLOAT(10,7)  NOT NULL, `heading` FLOAT  NOT NULL, `status_code` INT(11)  NOT NULL, PRIMARY KEY (`ID`) )");
+		st.execute("CREATE TABLE `orders_db` ( `ID` INT(11)  NOT NULL AUTO_INCREMENT COMMENT 'unique id', `lat` FLOAT(10,7) DEFAULT '0.000' NOT NULL COMMENT 'coordinate', `lng` FLOAT(10,7) DEFAULT '0.000' NOT NULL COMMENT 'coordinate', `status` INT(11), `priority` INT(11), `owner_ID` INT(11), PRIMARY KEY (`ID`))");
 		
 		System.out.println("system re-up'ed");
 	}
