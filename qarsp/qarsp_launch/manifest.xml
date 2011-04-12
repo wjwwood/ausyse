@@ -8,15 +8,15 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/qarsp_launch</url>
-  <depend pkg="qarsp_robot_model" />
-  <depend pkg="qarsp_2dnav" />
-  <depend pkg="qarsp_external_control" />
-  <depend pkg="gmapping" />
-  <depend pkg="openni_camera" />
-  <depend pkg="irobot_create_2_1" />
-  <depend pkg="tf" />
-  <depend pkg="oscjoy" />
-  <depend pkg="joy2twist" />
+  <depend package="qarsp_robot_model" />
+  <depend package="qarsp_2dnav" />
+  <depend package="qarsp_external_control" />
+  <depend package="gmapping" />
+  <depend package="openni_camera" />
+  <depend package="irobot_create_2_1" />
+  <depend package="tf" />
+  <depend package="oscjoy" />
+  <depend package="joy2twist" />
 
 </package>
 

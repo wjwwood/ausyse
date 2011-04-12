@@ -8,7 +8,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/qarsp_2dnav</url>
-  <depend pkg="move_base" />
+  <depend package="move_base" />
 
 </package>
 
