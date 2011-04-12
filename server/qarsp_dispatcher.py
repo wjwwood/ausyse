@@ -96,6 +96,7 @@ class QarspDispatcher():
             self.bonjour_thread.join(1)
         if(self.xmlrpc_thread != None):
             self.xmlrpc_thread.join(1)
+        self.sdRef.close()
     
     def processBonjour(self):
         """Waits for devices to connect"""
@@ -151,6 +152,7 @@ class QarspDispatcher():
     
 
 if __name__ == '__main__':
+    qd = None
     try:
         qd = QarspDispatcher()
         qd.monitorDatabase()
@@ -159,4 +161,3 @@ if __name__ == '__main__':
     finally:
         if qd != None:
             qd.shutdown()
-        sdRef.close()
