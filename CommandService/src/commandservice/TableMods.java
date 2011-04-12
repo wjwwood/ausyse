@@ -60,7 +60,7 @@ public class TableMods {
 			//order status levels -1: availible, >1: order being serviced by q#
 			//priority levels 0: unimportant, 1: pay attention, 2: urgent
 			//insert or append a row				 (    ID,          lat,                    long,                    status,   priority,                           ownerID)
-			st.executeUpdate("INSERT orders_db VALUES(" + null + "," + Math.random()*50 +"," + Math.random()*55 + "," + -1 + "," + Math.floor(Math.random()*3) + "," + Math.floor(Math.random()*10) +")");
+			st.executeUpdate("INSERT orders_db VALUES(" + null + "," + (32.6 + Math.random()*0.01) + "," + (-85.5 + Math.random()*.01) + "," + -1 + "," + Math.floor(Math.random()*3) + "," + Math.floor(Math.random()*10) +")");
 		}
 		
 		System.out.println("orders_db Table: 10 rows appended");
@@ -76,7 +76,7 @@ public class TableMods {
 		{
 			//qstatus levels -1: availible, >1: serving order#
 			//insert or append a row				  (    ID,          type,                               lat,                     long,                    heading,                  status_code)
-			st.executeUpdate("INSERT device_loc VALUES(" + null + "," + Math.floor(Math.random()*4) + "," + Math.random()*50 + "," + Math.random()*50 + "," + Math.random()*360 + "," + -1 + ")");
+			st.executeUpdate("INSERT device_loc VALUES(" + null + "," + Math.floor(Math.random()*4) + "," + (32.6 + Math.random()*0.01) + "," + (-85.5 + Math.random()*.01) + "," + Math.random()*360 + "," + -1 + ")");
 		}
 		System.out.println("device_loc Table: 10 rows appended");
 		
