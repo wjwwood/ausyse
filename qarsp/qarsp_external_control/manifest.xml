@@ -1,14 +1,13 @@
 <package>
-  <description brief="qarsp_2dnav">
+  <description brief="qarsp_external_control">
 
-     qarsp_2dnav
+     qarsp_external_control
 
   </description>
   <author>syseuser</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/qarsp_2dnav</url>
-  <depend package="move_base" />
+  <url>http://ros.org/wiki/qarsp_external_control</url>
 
 </package>
 

@@ -160,4 +160,3 @@ if __name__ == '__main__':
         if qd != None:
             qd.shutdown()
         sdRef.close()
-

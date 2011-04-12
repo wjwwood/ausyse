@@ -1,0 +1,16 @@
+<package>
+  <description brief="oscjoy">
+
+     oscjoy
+
+  </description>
+  <author>William Woodall</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/oscjoy</url>
+  <depend package="rospy"/>
+  <depend package="joy"/>
+
+</package>
+
+
