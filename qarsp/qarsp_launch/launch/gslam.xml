@@ -5,7 +5,7 @@
         <param name="inverted_laser" value="false" />
         <param name="maxUrange" value="30.0" />
         <param name="particles" value="30" />
-        <param name="delta" value="0.10" />
+        <param name="delta" value="0.050" />
         <param name="xmin" value="-15.0" />
         <param name="xmax" value="15.0" />
         <param name="ymin" value="-15.0" />

@@ -1,6 +1,12 @@
-import roslib; roslib.load_manifest('qarsp_external_control')
+#!/usr/bin/python
+
+import roslib
+roslib.load_manifest("qarsp_external_control")
 import rospy
 import actionlib
+import tf
+
+import threading
 
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
@@ -14,6 +20,12 @@ class RequestHandler(SimpleXMLRPCRequestHandler):
 
 client = None
 client_thread = None
+
+def waitForResult():
+    global client
+    client.wait_for_result()
+    s = xmlrpclib.ServerProxy('http://192.168.2.30:8002')
+    s.missionComplete()
 
 def dispatch(x, y):
     """Dispatches the device"""
@@ -29,11 +41,12 @@ def dispatch(x, y):
     destination.target_pose.pose.position.x = x
     destination.target_pose.pose.position.y = y
     quat = tf.transformations.quaternion_from_euler(0, 0, 0)
-    destination.target_pose.pose.orientation = quat
+    destination.target_pose.pose.orientation.z = quat[2]
+    destination.target_pose.pose.orientation.w = quat[3]
     
     client.send_goal(destination)
     
-    client_thread = threading.Thread(target=client.wait_for_result)
+    client_thread = threading.Thread(target=waitForResult)
     client_thread.start()
     
     return True
@@ -46,9 +59,9 @@ def main():
     
     server.register_function(dispatch)
     
-    s = xmlrpclib.ServerProxy('http://127.0.0.1:8002')
+    s = xmlrpclib.ServerProxy('http://192.168.2.30:8002')
     
-    s.register("127.0.0.1",8003)
+    s.register("192.168.2.10",8003)
     
     client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     client.wait_for_server()
