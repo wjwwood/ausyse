@@ -7,7 +7,11 @@ import select
 import sys
 import pybonjour
 
+from utm import *
+
+import xmlrpclib
 from SimpleXMLRPCServer import SimpleXMLRPCServer
+from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
 
 class Device():
     def __init__(self, device):
@@ -37,6 +41,9 @@ class Order():
         return self.id==other
     
 
+class RequestHandler(SimpleXMLRPCRequestHandler):
+    rpc_paths = ('/RPC2',)
+
 class QarspDispatcher():
     """This class monitors the database, connects to devices, and dispatches orders to devices"""
     def __init__(self):
@@ -46,6 +53,7 @@ class QarspDispatcher():
         self.xmlrpc_thread = None
         self.xmlrpc_server = None
         self.device_list = []
+        self.device_addrs = []
         self.orders_list = []
         self.dispatched_orders = []
         self.connectToDatabase()
@@ -57,7 +65,7 @@ class QarspDispatcher():
     
     def setupXMLRPC(self):
         """Starts the XMLRPC Server for communicating with the QARSP's"""
-        self.xmlrpc_server = SimpleXMLRPCServer(("localhost", 8002))
+        self.xmlrpc_server = SimpleXMLRPCServer(("", 8002), requestHandler=RequestHandler)
         
         self.xmlrpc_server.register_function(self.register_qarsp, 'register')
         self.xmlrpc_server.register_function(self.missionComplete_qarsp, 'missionComplete')
@@ -122,6 +130,7 @@ class QarspDispatcher():
             for order in self.cursor:
                 order = Order(order)
                 self.orders_list.append(order)
+            
             # Look for devices with assignments and non-zero locations
             for device in self.device_list:
                 if device.lat != 0 and device.long != 0 and device.status_code > 0:
@@ -140,15 +149,27 @@ class QarspDispatcher():
     
     def register_qarsp(self, addr, port):
         """Allows a qarsp to register itself"""
-        print addr, port
+        self.device_addrs.append((addr, port))
+        query = "INSERT INTO device_loc (type, lat, lng, heading, status_code) VALUES (1, 0, 0, 0, -1)"
+        self.cursor.execute(query)
+        print "Device added with address: %s:%d" % (addr,port)
+        return True
     
     def missionComplete_qarsp(self, qarsp_id):
         """Allows a qarsp to notify the dispatcher of a mission completion"""
-        pass
+        return True
     
     def dispatchOrder(self, order, device):
         """Dispatches an order to a given device"""
-        print "Dispatching device", device.id, "to", order.lat, order.long, "from", device.lat, device.long
+        try:
+            s = xmlrpclib.ServerProxy('http://%s:%d' % self.device_addrs[self.device_list.index(device)])
+            # Convert Lat to Long
+            order_x, order_y = latlong2utm(order.lat, order.long)
+            device_x, device_y = latlong2utm(device.lat, device.long)
+            s.dispatch(order_x-device_x, order_y-device_y)
+            print "Dispatching device", device.id, "to", order.lat, order.long, "from", device.lat, device.long
+        except Exception as error:
+            print "Error dispatching qarsp:", str(error)
     
 
 if __name__ == '__main__':
