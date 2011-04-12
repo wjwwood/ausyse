@@ -17,6 +17,7 @@
   <depend package="tf" />
   <depend package="oscjoy" />
   <depend package="joy2twist" />
+  <depend package="pointcloud_to_laserscan" />
 
 </package>
 
