@@ -16,14 +16,23 @@ public class Command {
 	 */
     public static boolean on = false;
     public static  int Ctype = 1;
+    public static String url;
+    public static String uname;
+    public static String passw;
 //MAIN PROGRAM EXECUTION ==========================================================================	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-		
+
+            url = args[0];
+            uname = args[1];
+            passw = args[2];
+
 		//boolean on = true;
 		while (on == true)
 		{
 			//put a thread for the position setting
+
+
 			ControlModQPos(Ctype);
 			try {
                             System.out.println("Command Service Running");
@@ -40,6 +49,10 @@ public class Command {
 //CONNECTION FUNCTIONS ============================================================================
 	public static Connection getConnection(String dbURL, String user, String pass) throws SQLException, ClassNotFoundException 	//creates connection
 	{
+            dbURL = "jdbc:mysql://" + url + "/qarsp_db";
+            user = uname;
+            pass = passw;
+            
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("[+]Connected.");

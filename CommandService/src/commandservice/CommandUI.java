@@ -107,9 +107,9 @@ public class CommandUI extends javax.swing.JFrame {
             }
         });
 
-        txtURL.setText("127.0.0.1");
+        txtURL.setText("127.0.0.1:8889");
 
-        txtUname.setText("root");
+        txtUname.setText("qarsp");
 
         jLabel1.setText("URL");
 
@@ -117,7 +117,7 @@ public class CommandUI extends javax.swing.JFrame {
 
         jLabel3.setText("Pass");
 
-        txtPass.setText("root");
+        txtPass.setText("syse2011");
 
         jLabel4.setText("Scheduling Rule");
 
@@ -421,7 +421,7 @@ public class CommandUI extends javax.swing.JFrame {
         //Command cmd = new Command();
         cmd.on = true;
 
-        String[] args = {"test"};
+        String[] args = {txtURL.getText(), txtUname.getText(), txtPass.getText()};
         try {
             cmd.main(args);
         } catch (SQLException ex) {
@@ -543,7 +543,7 @@ public class CommandUI extends javax.swing.JFrame {
     private java.awt.TextArea txtORDERS;
     private javax.swing.JTextField txtPass;
     private java.awt.TextArea txtQARSP;
-    private javax.swing.JTextField txtURL;
+    public javax.swing.JTextField txtURL;
     private javax.swing.JTextField txtUname;
     // End of variables declaration//GEN-END:variables
 
