@@ -60,6 +60,7 @@ public class CommandUI3 extends javax.swing.JFrame {
         mStartService = new javax.swing.JMenu();
         mStopService = new javax.swing.JMenu();
         mReset = new javax.swing.JMenu();
+        smClearStatus = new javax.swing.JMenuItem();
         smAddOrde = new javax.swing.JMenuItem();
         smAddQARSP = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -120,6 +121,14 @@ public class CommandUI3 extends javax.swing.JFrame {
 
         mReset.setText("Manipulate");
         mReset.setPreferredSize(new java.awt.Dimension(88, 21));
+
+        smClearStatus.setText("jMenuItem1");
+        smClearStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                smClearStatus(evt);
+            }
+        });
+        mReset.add(smClearStatus);
 
         smAddOrde.setText("Add Order");
         smAddOrde.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -266,7 +275,13 @@ public class CommandUI3 extends javax.swing.JFrame {
             Statement st = null;
             st = conn.createStatement();
             //Add
-            st.executeUpdate("INSERT orders_db VALUES(" + null + "," + (32.6 + Math.random() * 0.01) + "," + (-85.5 + Math.random() * .01) + "," + -1 + "," + Math.floor(Math.random() * 3) + "," + Math.floor(Math.random() * 10) + ")");
+            st.executeUpdate("INSERT orders_db VALUES(" + null + "," 
+                                                        + (32.6 + Math.random() * 0.01) + ","
+                                                        + (-85.5 + Math.random() * .01) + ","
+                                                        + -1 + ","
+                                                        + Math.floor(Math.random() * 3) + ","
+                                                        + Math.floor(Math.random() * 10) + ","
+                                                        + Math.floor(Math.random() * 10) + ")");
             //Display
             txtORDERS.setText(GetORDERinfo());
             txtQARSP.setText(GetQARSPinfo());
@@ -288,7 +303,12 @@ public class CommandUI3 extends javax.swing.JFrame {
             Statement st = null;
             st = conn.createStatement();
             //Add
-            st.executeUpdate("INSERT device_loc VALUES(" + null + "," + (32.6 + Math.random() * 0.01) + "," + (-85.5 + Math.random() * .01) + "," + -1 + "," + Math.floor(Math.random() * 3) + "," + Math.floor(Math.random() * 10) + ")");
+            st.executeUpdate("INSERT device_loc VALUES("    + null + ","
+                                                            + (32.6 + Math.random() * 0.01) + ","
+                                                            + (-85.5 + Math.random() * .01) + ","
+                                                            + -1 + ","
+                                                            + Math.floor(Math.random() * 3) + ","
+                                                            + Math.floor(Math.random() * 10) + ")");
             //Display
             txtORDERS.setText(GetORDERinfo());
             txtQARSP.setText(GetQARSPinfo());
@@ -349,6 +369,34 @@ public class CommandUI3 extends javax.swing.JFrame {
             Logger.getLogger(CommandUI3.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_smClearRandMousePressed
+
+    private void smClearStatus(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_smClearStatus
+        // TODO add your handling code here:
+
+
+
+
+
+        
+            try {
+            Connection conn = getConnection();
+            Statement st;
+            st = conn.createStatement();
+            st.executeUpdate("UPDATE orders_db SET status=-1 WHERE -1 < status");
+            st.executeUpdate("UPDATE device_loc SET status_code=-1 WHERE -1 < status_code");
+            //Display
+            txtORDERS.setText(GetORDERinfo());
+            txtQARSP.setText(GetQARSPinfo());
+            //Disconnect
+            DisconnectIt(conn);
+            System.out.println("[+]device_loc Table Cleared");
+        } catch (SQLException ex) {
+            Logger.getLogger(CommandUI3.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CommandUI3.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_smClearStatus
 //END Menu Code ==============================================================================================================
     /**
     * @param args the command line arguments ========================================================================
@@ -411,14 +459,19 @@ public class CommandUI3 extends javax.swing.JFrame {
 
             //Selects all QARSPs
             String rSQL = "SELECT * FROM device_loc";
-            String rResult = "DEVICE_LOC\nID\tType\tX\tY\tHeading\tStatus\n";
+            String rResult = "DEVICE_LOC\nID\tType\tlat\tlng\tHeading\tStatus\n";
 
             try{
                     ResultSet rs = stmt.executeQuery(rSQL);
 
                     while(rs.next())
                     {
-                            rResult +=rs.getInt("ID") + "\t" + rs.getInt("type") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("lng") + "\t" + rs.getFloat("heading") + "\t" + rs.getInt("status_code") + "\n";
+                            rResult +=rs.getInt("ID") + "\t"
+                                    + rs.getInt("type") + "\t"
+                                    + rs.getFloat("lat") + "\t"
+                                    + rs.getFloat("lng") + "\t"
+                                    + rs.getFloat("heading") + "\t"
+                                    + rs.getInt("status_code") + "\n";
                     }
 
                     System.out.println("[+]Requests Selected.");
@@ -440,7 +493,7 @@ public class CommandUI3 extends javax.swing.JFrame {
 
             //Selects all Orders
             String qSQL = "SELECT * FROM orders_db";
-            String qResult = "ODERS_DB\nID\tlat\tlng\tStatus\tPriority\tOwner_ID\n";
+            String qResult = "ODERS_DB\nID\tlat\tlng\tStatus\tPriority\tOwner_ID\tDevice_ID\n";
 
             try
             {
@@ -448,7 +501,13 @@ public class CommandUI3 extends javax.swing.JFrame {
 
                     while(rs.next())
                     {
-                            qResult += rs.getInt("ID") + "\t" + rs.getFloat("lat") + "\t" + rs.getFloat("lng") + "\t" + rs.getInt("status") + "\t" + rs.getInt("priority") + "\t" + rs.getInt("owner_ID") + "\n";
+                            qResult += rs.getInt("ID") + "\t" 
+                                    + rs.getFloat("lat") + "\t"
+                                    + rs.getFloat("lng") + "\t"
+                                    + rs.getInt("status") + "\t"
+                                    + rs.getInt("priority") + "\t"
+                                    + rs.getInt("owner_ID") + "\t"
+                                    + rs.getInt("device_ID") + "\n";
                     }
 
                     System.out.println("[+]Positions Selected.");
@@ -476,8 +535,8 @@ public class CommandUI3 extends javax.swing.JFrame {
         {
             //order status levels -1: availible, >1: order being serviced by q#
             //priority levels 0: unimportant, 1: pay attention, 2: urgent
-            //insert or append a row                 (    ID,          lat,                                long,                               status,    priority,                           ownerID)
-            st.executeUpdate("INSERT orders_db VALUES(" + null + "," + (32.6 + Math.random()*0.01) + "," + (-85.5 + Math.random()*.01) + "," + -1 + "," + Math.floor(Math.random()*3) + "," + Math.floor(Math.random()*10) +")");
+            //insert or append a row                 (    ID,          lat,                                long,                               status,    priority,                           ownerID,                             deviceID)
+            st.executeUpdate("INSERT orders_db VALUES(" + null + "," + (32.6 + Math.random()*0.01) + "," + (-85.5 + Math.random()*.01) + "," + -1 + "," + Math.floor(Math.random()*3) + "," + Math.floor(Math.random()*10) + "," + Math.floor(Math.random()*10) + ")");
         }
         System.out.println("orders_db Table: 10 rows appended");
 
@@ -522,11 +581,12 @@ public class CommandUI3 extends javax.swing.JFrame {
 
         //Selects all unanswered orders (status = -1) ---------------------------------------------
         String oSQL = "SELECT * FROM orders_db WHERE status = -1";
-        String oResult = "ID\tlat\t\tlng\t\tstat\tprior\towner_ID\n";
+        String oResult = "ID\tlat\t\tlng\t\tstat\tprior\towner_ID\tdev\n";
 
         Vector<Integer> t_IDo = new Vector<Integer>();		Vector<Float> t_lat = new Vector<Float>();
         Vector<Float> t_lng = new Vector<Float>();		Vector<Integer> t_stt = new Vector<Integer>();	
         Vector<Integer> t_pri = new Vector<Integer>();		Vector<Integer> t_own = new Vector<Integer>();
+        Vector<Integer> t_dev = new Vector<Integer>();
 
         try{
                 ResultSet rso = stmt.executeQuery(oSQL);
@@ -537,8 +597,9 @@ public class CommandUI3 extends javax.swing.JFrame {
                         t_IDo.add(rso.getInt("ID"));						t_lat.add(rso.getFloat("lat"));			
                         t_lng.add(rso.getFloat("lng"));					t_stt.add(rso.getInt("status"));
                         t_pri.add(rso.getInt("priority"));					t_own.add(rso.getInt("owner_ID"));
+                        t_dev.add(rso.getInt("device_ID"));
 
-                        oResult += t_IDo.get(j)+"\t"+t_lat.get(j)+"\t"+t_lng.get(j)+"\t"+t_stt.get(j)+"\t"+t_pri.get(j)+"\t"+t_own.get(j)+"\n";
+                        oResult += t_IDo.get(j)+"\t"+t_lat.get(j)+"\t"+t_lng.get(j)+"\t"+t_stt.get(j)+"\t"+t_pri.get(j)+"\t"+t_own.get(j)+"\t"+t_dev.get(j)+"\n";
 
                         j++;
                 }
@@ -585,11 +646,11 @@ public class CommandUI3 extends javax.swing.JFrame {
 
         //Positioning Logic -----------------------------------------------------------------------
         if (CommandRule == 0){
-        FIFO(stmt, t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
+        FIFO(stmt, t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_dev, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
         } else if (CommandRule == 1) {
-        LIFO(stmt, t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
+        LIFO(stmt, t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_dev, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
         } else if (CommandRule == 2){
-        Closest(stmt ,t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
+        Closest(stmt ,t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_dev, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
         }
         //VRP(stmt ,t_IDo, t_lat, t_lng, t_stt, t_pri, t_own, t_IDq, t_typ, t_ltq, t_lgq, t_hed, t_stc);
 
@@ -599,7 +660,7 @@ public class CommandUI3 extends javax.swing.JFrame {
 //END COMMAND ================================================================================================================
 //LOGICS =====================================================================================================================
     public static void FIFO(Statement st,
-        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, 
+        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, Vector<Integer> odev,
         Vector<Integer> qID, Vector<Integer> qtyp, Vector<Float> qlat, Vector<Float> qlng, Vector<Float> qhed, Vector<Integer> qstc) throws SQLException
     {																							//makes no distinction for what qarsp can fulfill what request
         String oRes =  "ID\t\tstat\n";
@@ -627,7 +688,7 @@ public class CommandUI3 extends javax.swing.JFrame {
         System.out.print("Modified QAESPs mini-table\n"); System.out.println(qRes);
     }
     public static void LIFO(Statement st,
-        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, 
+        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, Vector<Integer> odev,
         Vector<Integer> qID, Vector<Integer> qtyp, Vector<Float> qlat, Vector<Float> qlng, Vector<Float> qhed, Vector<Integer> qstc) throws SQLException
     {
         String oRes =  "ID\tstat\n";
@@ -655,9 +716,10 @@ public class CommandUI3 extends javax.swing.JFrame {
         System.out.print("Modified QAESPs mini-table\n"); System.out.println(qRes);
     }
     public static void Closest(Statement st, 
-        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, 
+        Vector<Integer> oID, Vector<Float> olat, Vector<Float> olng, Vector<Integer> ostt, Vector<Integer> opri, Vector<Integer> oown, Vector<Integer> odev,
         Vector<Integer> qID, Vector<Integer> qtyp, Vector<Float> qlat, Vector<Float> qlng, Vector<Float> qhed, Vector<Integer> qstc) throws SQLException
     {
+        //TODO: check this logic and such
         String oRes =  "ID\t\tstat\n";
         String qRes =  "ID\tstatus_code\n";
 
@@ -665,6 +727,8 @@ public class CommandUI3 extends javax.swing.JFrame {
         {
                 //Make the matrix	
                 Vector<Vector<Float>> FROMorderTOqarsp = new Vector<Vector<Float>>();	FROMorderTOqarsp = FromToMatrix(olat, olng, qlat, qlng);
+
+                        System.out.print(FROMorderTOqarsp);
 
                 //find min form-to distance
                 Vector<Float> FTmin = new Vector<Float>();	FTmin = FindMatrixMin(FROMorderTOqarsp);
@@ -755,6 +819,7 @@ public class CommandUI3 extends javax.swing.JFrame {
     private javax.swing.JMenuItem smClearOrdersT;
     private javax.swing.JMenuItem smClearQARSPT;
     private javax.swing.JMenuItem smClearRand;
+    private javax.swing.JMenuItem smClearStatus;
     private javax.swing.JTextArea txtORDERS;
     private javax.swing.JTextField txtPass;
     private javax.swing.JTextArea txtQARSP;
