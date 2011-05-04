@@ -83,9 +83,14 @@ public class CommandUI3 extends javax.swing.JFrame {
 
         jLabel4.setText("Scheduling Rule");
 
-        txtPass.setText("root");
+        txtPass.setText("syse2011");
 
-        txtUname.setText("root");
+        txtUname.setText("qarsp");
+        txtUname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUnameActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("URL");
 
@@ -93,7 +98,7 @@ public class CommandUI3 extends javax.swing.JFrame {
 
         jLabel3.setText("Pass");
 
-        txtURL.setText("127.0.0.1");
+        txtURL.setText("127.0.0.1:8889");
 
         txtORDERS.setColumns(20);
         txtORDERS.setRows(5);
@@ -388,6 +393,10 @@ public class CommandUI3 extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_smClearStatus
+
+    private void txtUnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUnameActionPerformed
 //END Menu Code ==============================================================================================================
     /**
     * @param args the command line arguments ========================================================================

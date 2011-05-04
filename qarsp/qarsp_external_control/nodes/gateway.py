@@ -3,6 +3,7 @@
 import roslib
 roslib.load_manifest("qarsp_external_control")
 import rospy
+import os
 import actionlib
 import tf
 
@@ -14,6 +15,9 @@ import xmlrpclib
 
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
+
+map_thread = None
+s = None
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
@@ -51,8 +55,22 @@ def dispatch(x, y):
     
     return True
 
+def save_map():
+    global s
+    if rospy.is_shutdown():
+        return
+    os.system("sh scripts/save_map.sh")
+    from PIL import Image
+    im = Image.open("/tmp/map.pgm")
+    im_str = im.tostring()
+    import base64
+    im_str = base64.b64encode(im_str)
+    s.updateMap(im.mode, im.size, im_str)
+    map_thread = threading.Timer(5.0, save_map)
+    map_thread.start()
+
 def main():
-    global client
+    global client,s 
     rospy.init_node("qarsp_gateway")
     server = SimpleXMLRPCServer(("", 8003),
                                 requestHandler=RequestHandler)
@@ -62,6 +80,9 @@ def main():
     s = xmlrpclib.ServerProxy('http://192.168.2.30:8002')
     
     s.register("192.168.2.10",8003)
+    
+    map_thread = threading.Timer(5.0, save_map)
+    map_thread.start()
     
     client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
     client.wait_for_server()
