@@ -150,7 +150,7 @@ class QarspDispatcher():
     def register_qarsp(self, addr, port):
         """Allows a qarsp to register itself"""
         self.device_addrs.append((addr, port))
-        query = "INSERT INTO device_loc (type, lat, lng, heading, status_code) VALUES (1, 0, 0, 0, -1)"
+        query = "INSERT INTO device_loc (type, lat, lng, heading, status_code) VALUES (1, 32.606216, -85.486671, 0, -1)"
         self.cursor.execute(query)
         print "Device added with address: %s:%d" % (addr,port)
         return True
@@ -166,7 +166,8 @@ class QarspDispatcher():
             # Convert Lat to Long
             order_x, order_y = latlong2utm(order.lat, order.long)
             device_x, device_y = latlong2utm(device.lat, device.long)
-            s.dispatch(order_x-device_x, order_y-device_y)
+            # s.dispatch(order_x-device_x, order_y-device_y)
+            s.dispatch(0, 5)
             print "Dispatching device", device.id, "to", order.lat, order.long, "from", device.lat, device.long
         except Exception as error:
             print "Error dispatching qarsp:", str(error)
