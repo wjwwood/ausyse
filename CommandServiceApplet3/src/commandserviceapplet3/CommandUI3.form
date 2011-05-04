@@ -30,7 +30,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="smClearStatus">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+                <Property name="text" type="java.lang.String" value="Clear Statuses"/>
               </Properties>
               <Events>
                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="smClearStatus"/>

@@ -122,7 +122,7 @@ public class CommandUI3 extends javax.swing.JFrame {
         mReset.setText("Manipulate");
         mReset.setPreferredSize(new java.awt.Dimension(88, 21));
 
-        smClearStatus.setText("jMenuItem1");
+        smClearStatus.setText("Clear Statuses");
         smClearStatus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 smClearStatus(evt);
@@ -245,13 +245,11 @@ public class CommandUI3 extends javax.swing.JFrame {
 }//GEN-LAST:event_mGetMouseClicked
 
     private void mStartServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mStartServiceMouseClicked
-        if (ServiceMade == false) {
-            Thread thr1 = new Thread(rStart); thr1.start();
-            ServiceMade = true;
-            On = true;
-        } else {
-            On = true;
-        }
+
+        Thread thr1 = new Thread(rStart); thr1.start();
+        ServiceMade = true;
+        On = true;
+
         
         System.out.println("Service Started");
 }//GEN-LAST:event_mStartServiceMouseClicked
@@ -371,13 +369,6 @@ public class CommandUI3 extends javax.swing.JFrame {
     }//GEN-LAST:event_smClearRandMousePressed
 
     private void smClearStatus(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_smClearStatus
-        // TODO add your handling code here:
-
-
-
-
-
-        
             try {
             Connection conn = getConnection();
             Statement st;
@@ -420,6 +411,7 @@ public class CommandUI3 extends javax.swing.JFrame {
             //boolean on = true;
             while (On == true)
             {
+                System.out.println(On);
                 //Do Work
                 try {
                     ControlModQPos(cboCommandType.getSelectedIndex());
@@ -442,7 +434,7 @@ public class CommandUI3 extends javax.swing.JFrame {
 
                 //Wait for a few seconds
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommandUI3.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -699,7 +691,7 @@ public class CommandUI3 extends javax.swing.JFrame {
         for(int q = 0 ; q < qID.size(); q++)														//for each availible qarsp
         {
                 //set both to busy
-                if(o < oID.size())
+                if(-1 < o & o < oID.size())
                 {
                         st.execute("UPDATE orders_db SET status='" + qID.get(q).toString() + "' WHERE  ID = '" + oID.get(o).toString() + "'");
                         st.execute("UPDATE device_loc SET status_code='" + oID.get(o).toString() +"' WHERE ID = '" + qID.get(q).toString() +"'");
@@ -728,21 +720,22 @@ public class CommandUI3 extends javax.swing.JFrame {
                 //Make the matrix	
                 Vector<Vector<Float>> FROMorderTOqarsp = new Vector<Vector<Float>>();	FROMorderTOqarsp = FromToMatrix(olat, olng, qlat, qlng);
 
+                        System.out.print("From Order 2 QARSP half matrix");
                         System.out.print(FROMorderTOqarsp);
 
                 //find min form-to distance
-                Vector<Float> FTmin = new Vector<Float>();	FTmin = FindMatrixMin(FROMorderTOqarsp);
+                Vector<Integer> FTmin = new Vector<Integer>();	FTmin = FindMatrixMin(FROMorderTOqarsp);
 
                 //Set pairing
-                st.execute("UPDATE orders_db SET status = '" + FTmin.get(1).toString() + "' WHERE ID = '" + FTmin.get(0).toString() + "'");
-                st.execute("UPDATE device_loc SET status_code = '" + FTmin.get(0).toString() + "' WHERE ID = '" + FTmin.get(1).toString() + "'");
+                st.execute("UPDATE orders_db SET status = '" + qID.get(FTmin.get(1)).toString()  + "' WHERE ID = '" + oID.get(FTmin.get(0)).toString() + "'");
+                st.execute("UPDATE device_loc SET status_code = '" + oID.get(FTmin.get(0)).toString() + "' WHERE ID = '" + qID.get(FTmin.get(1)).toString() + "'");
 
                 oRes += FTmin.get(1).toString() + "\t" + FTmin.get(0).toString() + "\n";
                 qRes += FTmin.get(0).toString() + "\t" + FTmin.get(1).toString() + "\n";
 
 
                 //remove paired			
-                oID.removeElementAt((int) Math.floor(FTmin.get(0))); olat.removeElementAt((int) Math.floor(FTmin.get(0))); olng.removeElementAt((int) Math.floor(FTmin.get(0))); ostt.removeElementAt((int) Math.floor(FTmin.get(0))); opri.removeElementAt((int) Math.floor(FTmin.get(0))); oown.removeElementAt((int) Math.floor(FTmin.get(0))); 
+                oID.removeElementAt((int) Math.floor(FTmin.get(0))); olat.removeElementAt((int) Math.floor(FTmin.get(0))); olng.removeElementAt((int) Math.floor(FTmin.get(0))); ostt.removeElementAt((int) Math.floor(FTmin.get(0))); opri.removeElementAt((int) Math.floor(FTmin.get(0))); oown.removeElementAt((int) Math.floor(FTmin.get(0))); odev.removeElementAt((int) Math.floor(FTmin.get(0)));
                 qID.removeElementAt((int) Math.floor(FTmin.get(1))); qtyp.removeElementAt((int) Math.floor(FTmin.get(1))); qlat.removeElementAt((int) Math.floor(FTmin.get(1))); qlng.removeElementAt((int) Math.floor(FTmin.get(1))); qhed.removeElementAt((int) Math.floor(FTmin.get(1))); 
         }
 
@@ -767,11 +760,13 @@ public class CommandUI3 extends javax.swing.JFrame {
         }
         return FromTo;
     }
-    public static Vector<Float> FindMatrixMin(Vector<Vector<Float>> FT)
+    public static Vector<Integer> FindMatrixMin(Vector<Vector<Float>> FT)
     {
-        Vector<Float> minv = new Vector<Float>();
+        Vector<Integer> minv = new Vector<Integer>();
 
-        minv.add(-1f); minv.add(-1f); minv.add(999999.99f);
+
+        minv.add(-1); minv.add(-1); 
+        float minvd = 999999;
 
         //System.out.println("From(order) - To(device) Table");					used to write the entire table
 
@@ -779,14 +774,14 @@ public class CommandUI3 extends javax.swing.JFrame {
         {
                 for(int q = 0; q < FT.get(0).size(); q++)
                 {
-                        if(FT.get(o).get(q) < minv.get(2)) { minv.set(0, (float)o); minv.set(1, (float)q); minv.set(2, (float)FT.get(o).get(q)); }		//if this value is smaller, keep it and its indices
+                        if(FT.get(o).get(q) < minvd) { minv.set(0, o); minv.set(1, q);minvd = FT.get(o).get(q); }		//if this value is smaller, keep it and its indices
 
                         //System.out.print("(" + FT.get(o).get(q) + ")\t");							//writes the entire table
                 }	
                 //System.out.print("\n");															//used to write the entire table
         }
 
-        System.out.println("Min distance pair : (" + minv.get(0) + ", " + minv.get(1) + ") " + minv.get(2) + "\n");
+        System.out.println("Min distance pair : (" + minv.get(0) + ", " + minv.get(1) + ") " + minvd + "\n");
 
         return minv;
     }
