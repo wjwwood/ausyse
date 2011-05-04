@@ -69,6 +69,7 @@ class QarspDispatcher():
         
         self.xmlrpc_server.register_function(self.register_qarsp, 'register')
         self.xmlrpc_server.register_function(self.missionComplete_qarsp, 'missionComplete')
+        self.xmlrpc_server.register_function(self.updateMap_qarsp, 'updateMap')
         
         self.xmlrpc_thread = threading.Thread(target=self.xmlrpc_server.serve_forever)
         self.xmlrpc_thread.start()
@@ -157,6 +158,15 @@ class QarspDispatcher():
     
     def missionComplete_qarsp(self, qarsp_id):
         """Allows a qarsp to notify the dispatcher of a mission completion"""
+        return True
+    
+    def updateMap_qarsp(self, mode, size, str_im):
+        """docstring for updateMap_qarsp"""
+        from PIL import Image
+        import base64
+        str_im = base64.b64decode(str_im)
+        im = Image.fromstring(mode, size, str_im)
+        im.save("/Applications/MAMP/htdocs/map.jpeg", "JPEG")
         return True
     
     def dispatchOrder(self, order, device):
