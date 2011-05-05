@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="fill_parent" 
+android:layout_height="fill_parent" android:id="@+id/MainWindow">
+	<com.google.android.maps.MapView 
+	android:id="@+id/mapView"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:enabled="true"
+	android:clickable="true"
+	android:apiKey="0D9R927oLuw-Rq7ohn4qGDqgFfba-tulD60GUsQ"/>
+	<LinearLayout android:id="@+id/infopane" 
+	android:layout_height="wrap_content" 
+	android:layout_width="wrap_content" 
+	android:orientation="vertical"
+	android:background="@drawable/black">
+		<TextView android:id="@+id/myLocationTextMap"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:text="Your Current Position is:
+Lat: -Unknown- 
+Lng: -Unknown-"/>
+
+		<TextView android:id="@+id/myActiveDeviceTextMap"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:text="@string/ActiveDevText"/>
+		
+		<Button	android:id="@+id/Button01"
+		android:layout_width="175px"
+		android:layout_height="wrap_content"
+		android:text="Ping GPS"
+		android:padding="2dp" 
+		android:textSize="10dp">
+		</Button>
+		<Button	android:id="@+id/Button02"
+		android:layout_width="175px"
+		android:layout_height="wrap_content"
+		android:text="Toggle WP Mode"
+		android:padding="2dp" 
+		android:textSize="10dp"></Button>
+		<Button android:id="@+id/Button03"
+		android:layout_width="175px"
+		android:layout_height="wrap_content"
+		android:text="Log Order"
+		></Button>
+		
+	</LinearLayout>
+
+	<LinearLayout android:id="@+id/zoom" 
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_alignParentBottom="true"
+	android:layout_centerHorizontal="true">
+		<LinearLayout android:id="@+id/transparent_panel"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="5px"
+		android:paddingLeft="5px"
+		android:paddingBottom="5px"
+		android:paddingRight="5px"
+		android:background="@android:color/transparent">
+		</LinearLayout>
+	</LinearLayout>
+</RelativeLayout>

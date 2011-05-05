@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <TextView android:id="@+id/myLocationText"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+  />
+  
+  <TextView android:id="@+id/myActiveDeviceText"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:text="Active Device ID: -None-" />
+  	
+  	 <LinearLayout android:layout_width="fill_parent"
+  	 android:id="@+id/linearLayout1"
+  	 android:orientation="horizontal"
+  	 android:layout_height="wrap_content">
+  <TextView android:id="@+id/serverIpLabel"
+  	android:layout_height="wrap_content"
+  	android:text="Server IP:" android:layout_width="75dip"/>
+  <EditText android:id="@+id/serverIPTextView"
+  android:layout_width="150dip"
+  android:text="131.204.223.160"
+  android:layout_height="35dip"
+  android:padding="2dp" 
+  android:textSize="10dp"/>
+  <Button
+  android:id="@+id/ButtonIP"
+  android:layout_width="120px"
+  android:textSize="10dp"
+  android:text="Update IP" 
+  android:layout_height="35dip"/>
+  </LinearLayout>
+  	
+  <LinearLayout 
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:orientation="vertical" >
+   <TextView android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:text="Long-Press on of the Items in the list." />
+  <ListView android:id="@+id/myListView"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+  />
+  </LinearLayout>
+ 
+  
+</LinearLayout>
